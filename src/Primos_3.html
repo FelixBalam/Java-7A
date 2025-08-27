@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Verificador de Números Primos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+
+    input, button {
+      margin: 5px 0;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Verificador de Números Primos</h2>
+
+  <!-- Entrada para la cantidad de números -->
+  <label for="cantidadInput">Cantidad de números a ingresar:</label><br>
+  <input type="number" id="cantidadInput" min="1" placeholder="Ej: 5">
+  <button id="generarCamposBtn">Generar campos</button>
+
+  <!-- Aquí se generarán dinámicamente los inputs -->
+  <form id="numerosForm" style="margin-top: 20px;"></form>
+
+  <!-- Aquí se mostrará el resultado -->
+  <div id="resultado"></div>
+
+  <script>
+    // Referencias a los elementos del DOM
+    const cantidadInput = document.getElementById('cantidadInput');
+    const generarCamposBtn = document.getElementById('generarCamposBtn');
+    const numerosForm = document.getElementById('numerosForm');
+    const resultadoDiv = document.getElementById('resultado');
+
+    // Función declarativa para verificar si un número es primo
+    const esPrimo = num =>
+      num > 1 && [...Array(Math.floor(Math.sqrt(num)) - 1).keys()] // Se generan posibles divisores
+        .map(i => i + 2) // Ajustamos para que empiece desde 2
+        .every(div => num % div !== 0); // Verificamos que ninguno divida al número
+
+    // Evento para generar los campos de entrada según la cantidad indicada
+    generarCamposBtn.addEventListener('click', () => {
+      const cantidad = parseInt(cantidadInput.value);
+
+      // Validación de la cantidad
+      if (!cantidad || cantidad < 1) {
+        alert("Ingrese un número válido mayor que 0.");
+        return;
+      }
+
+      // Se crean dinámicamente los inputs usando programación declarativa
+      numerosForm.innerHTML = `
+        ${Array.from({ length: cantidad }, (_, i) =>
+          `<input type="number" name="numero${i}" placeholder="Número ${i + 1}" required><br>`
+        ).join('')}
+        <button type="submit">Verificar</button>
+      `;
+    });
+
+    // Evento para procesar el formulario y verificar qué números son primos
+    numerosForm.addEventListener('submit', e => {
+      e.preventDefault(); // Evita que la página se recargue
+
+      // Se obtiene el valor de todos los inputs y se convierten en números
+      const numeros = [...numerosForm.querySelectorAll('input[type="number"]')]
+        .map(input => parseInt(input.value));
+      
+      // Filtramos los que son primos
+      const primos = numeros.filter(esPrimo);
+
+      // Mostramos los resultados en pantalla
+      resultadoDiv.innerHTML = primos.length
+        ? `Números primos encontrados: <strong>${primos.join(', ')}</strong>`
+        : 'No se encontraron números primos.';
+    });
+  </script>
+
+</body>
+</html>
