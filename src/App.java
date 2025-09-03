@@ -1,48 +1,58 @@
 import java.util.Scanner;
 
 public class App {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
-        // Se pide al usuario la cantidad de números que va a ingresar
-        System.out.println("Cuantos Numeros deseas ingresar, para la validacion si son numeros primos");
-        int Cantidadnumeros = scanner.nextInt();
+        System.out.println("¿Cuántos números deseas ingresar para validar si son primos?");
+        int cantidadNumeros = scanner.nextInt();
 
-        // Se crea un arreglo para almacenar los números
-        int[] numeros = new int[Cantidadnumeros];
+        int[] numeros = new int[cantidadNumeros];
+        int[] primos = new int[cantidadNumeros];
+        int[] noPrimos = new int[cantidadNumeros];
+        int contadorPrimos = 0, contadorNoPrimos = 0;
 
-        // Ciclo para llenar el arreglo con los números ingresados por el usuario
-        for (int i = 0; i < Cantidadnumeros; i++) {
-            System.out.println("Ingrese el numero " + (i + 1));
+        // Entrada de números
+        for (int i = 0; i < cantidadNumeros; i++) {
+            System.out.print("Ingrese el número " + (i + 1) + ": ");
             numeros[i] = scanner.nextInt();
         }
 
-        // Ciclo para validar cada número si es primo o no
-        for (int i = 0; i < Cantidadnumeros; i++) {
+        // Validación de primos
+        for (int i = 0; i < cantidadNumeros; i++) {
             int numero = numeros[i];
-            boolean esPrimo = true; // Variable de control
+            boolean esPrimo = true;
 
-            // Los números menores o iguales a 1 no son primos
             if (numero <= 1) {
                 esPrimo = false;
             } else {
-                // Se verifica si el número tiene divisores
                 for (int j = 2; j <= Math.sqrt(numero); j++) {
-                    if (numero % j == 0) { 
-                        // Si tiene un divisor distinto de 1 y él mismo → no es primo
+                    if (numero % j == 0) {
                         esPrimo = false;
-                        break; // Se rompe el ciclo porque ya no hace falta seguir probando
+                        break;
                     }
                 }
             }
 
-            // Resultado final para cada número
             if (esPrimo) {
-                System.out.println("El numero " + numero + " es primo.");
+                primos[contadorPrimos] = numero;
+                contadorPrimos++;
             } else {
-                System.out.println("El numero " + numero + " no es primo.");
+                noPrimos[contadorNoPrimos] = numero;
+                contadorNoPrimos++;
             }
-        }   
+        }
+
+        // Resumen final usando "matriz de dos filas"
+        System.out.print("Primos:     ");
+        for (int i = 0; i < contadorPrimos; i++) {
+            System.out.print(primos[i] + " ");
+        }
+
+        System.out.print("\nNo primos:  ");
+        for (int i = 0; i < contadorNoPrimos; i++) {
+            System.out.print(noPrimos[i] + " ");
+        }
     }
 }
