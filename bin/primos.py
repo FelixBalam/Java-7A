@@ -6,17 +6,18 @@ class BuscadorPrimos:
 
     # Método para verificar si un número es primo
     def es_primo(self, n):
-        if n < 2:  # Los números menores a 2 no son primos
+        if n < 2:  # Declaramos la regla: los números menores a 2 no son primos
             return False
-        # Recorremos posibles divisores desde 2 hasta la raíz cuadrada de n
+        # Declaramos la condición de primalidad: no tener divisores hasta la raíz cuadrada
         for i in range(2, int(n**0.5) + 1):
-            if n % i == 0:  # Si es divisible, no es primo
+            if n % i == 0:  # Si existe un divisor, declaramos que no es primo
                 return False
-        return True  # Si no tuvo divisores, es primo
+        return True  # Declaramos que sí es primo
 
     # Método para filtrar los primos de la lista de números
     def obtener_primos(self):
-        # Se usa una lista por comprensión (forma declarativa de recorrer listas)
+        # Se usa una lista por comprensión → forma declarativa:
+        # "dame todos los números que cumplan la condición de ser primos"
         return [num for num in self.numeros if self.es_primo(num)]
 
 
@@ -30,12 +31,12 @@ if __name__ == "__main__":
     # Ciclo para pedir uno por uno los números
     for i in range(cantidad):
         num = int(input(f"Ingrese el número {i+1}: "))
-        numeros.append(num)  # Se agregan a la lista
+        numeros.append(num)  # Declaramos que la lista se construye con estos números
 
     # Se crea un objeto de la clase BuscadorPrimos con los números ingresados
     buscador = BuscadorPrimos(numeros)
 
-    # Mostramos la lista original y los resultados
+    # Declarativamente mostramos la lista y el resultado de aplicar la condición de primalidad
     print("\nLista ingresada:", numeros)
     print("Números primos encontrados:", buscador.obtener_primos())
     print("Cantidad de primos:", len(buscador.obtener_primos()))

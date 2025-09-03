@@ -43,23 +43,23 @@
     const numerosForm = document.getElementById('numerosForm');
     const resultadoDiv = document.getElementById('resultado');
 
-    // Función declarativa para verificar si un número es primo
+    // ✅ Función pura en estilo funcional: no depende de variables externas, siempre mismo resultado
     const esPrimo = num =>
-      num > 1 && [...Array(Math.floor(Math.sqrt(num)) - 1).keys()] // Se generan posibles divisores
-        .map(i => i + 2) // Ajustamos para que empiece desde 2
-        .every(div => num % div !== 0); // Verificamos que ninguno divida al número
+      num > 1 &&
+      [...Array(Math.floor(Math.sqrt(num)) - 1).keys()] // Se genera un array de posibles divisores
+        .map(i => i + 2)                               // Se transforma con map → números desde 2
+        .every(div => num % div !== 0);                // Se reduce con every → condición de primalidad
 
-    // Evento para generar los campos de entrada según la cantidad indicada
+    // ✅ Evento funcional: creación declarativa de campos
     generarCamposBtn.addEventListener('click', () => {
       const cantidad = parseInt(cantidadInput.value);
 
-      // Validación de la cantidad
       if (!cantidad || cantidad < 1) {
         alert("Ingrese un número válido mayor que 0.");
         return;
       }
 
-      // Se crean dinámicamente los inputs usando programación declarativa
+      // Generamos los inputs de forma declarativa usando Array.from + map + join
       numerosForm.innerHTML = `
         ${Array.from({ length: cantidad }, (_, i) =>
           `<input type="number" name="numero${i}" placeholder="Número ${i + 1}" required><br>`
@@ -68,18 +68,18 @@
       `;
     });
 
-    // Evento para procesar el formulario y verificar qué números son primos
+    // ✅ Evento funcional: se transforma la lista de inputs en lista de números
     numerosForm.addEventListener('submit', e => {
-      e.preventDefault(); // Evita que la página se recargue
+      e.preventDefault();
 
-      // Se obtiene el valor de todos los inputs y se convierten en números
+      // Se obtiene el valor de todos los inputs → se transforma a enteros
       const numeros = [...numerosForm.querySelectorAll('input[type="number"]')]
         .map(input => parseInt(input.value));
-      
-      // Filtramos los que son primos
+
+      // Se aplica filter → obtenemos sólo los que cumplen con la función pura esPrimo
       const primos = numeros.filter(esPrimo);
 
-      // Mostramos los resultados en pantalla
+      // ✅ Declarativamente mostramos el resultado: no controlamos paso a paso, solo expresamos qué mostrar
       resultadoDiv.innerHTML = primos.length
         ? `Números primos encontrados: <strong>${primos.join(', ')}</strong>`
         : 'No se encontraron números primos.';

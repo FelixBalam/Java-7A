@@ -1,58 +1,65 @@
-import java.util.Scanner;
+import java.util.Scanner; // Importamos la clase Scanner para leer datos desde teclado
 
 public class App {
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in); // Se crea el objeto Scanner para capturar datos del usuario (entrada estándar)
 
+        // Se pide al usuario cuántos números va a ingresar
         System.out.println("¿Cuántos números deseas ingresar para validar si son primos?");
-        int cantidadNumeros = scanner.nextInt();
+        int cantidadNumeros = scanner.nextInt(); // Guardamos la cantidad en una variable entera
 
-        int[] numeros = new int[cantidadNumeros];
-        int[] primos = new int[cantidadNumeros];
-        int[] noPrimos = new int[cantidadNumeros];
+        // Declaración de arreglos para almacenar números, primos y no primos
+        int[] numeros = new int[cantidadNumeros];   // Guarda todos los números ingresados
+        int[] primos = new int[cantidadNumeros];    // Guarda únicamente los primos
+        int[] noPrimos = new int[cantidadNumeros];  // Guarda únicamente los no primos
+
+        // Contadores para controlar la cantidad real de primos y no primos almacenados
         int contadorPrimos = 0, contadorNoPrimos = 0;
 
-        // Entrada de números
-        for (int i = 0; i < cantidadNumeros; i++) {
-            System.out.print("Ingrese el número " + (i + 1) + ": ");
-            numeros[i] = scanner.nextInt();
+        // ---- PARADIGMA IMPERATIVO: instrucción secuencial de llenado ----
+        for (int i = 0; i < cantidadNumeros; i++) { // Bucle para ingresar cada número
+            System.out.print("Ingrese el número " + (i + 1) + ": "); // Pide el número en orden
+            numeros[i] = scanner.nextInt(); // Se almacena en el arreglo "numeros"
         }
 
-        // Validación de primos
-        for (int i = 0; i < cantidadNumeros; i++) {
-            int numero = numeros[i];
-            boolean esPrimo = true;
+        // ---- PARADIGMA IMPERATIVO: procesamiento paso a paso ----
+        for (int i = 0; i < cantidadNumeros; i++) { // Recorremos todos los números ingresados
+            int numero = numeros[i]; // Tomamos el número en la posición i
+            boolean esPrimo = true;  // Variable de control para verificar si es primo
 
+            // Los números <= 1 no son primos
             if (numero <= 1) {
                 esPrimo = false;
             } else {
+                // Verificamos divisores desde 2 hasta la raíz cuadrada
                 for (int j = 2; j <= Math.sqrt(numero); j++) {
-                    if (numero % j == 0) {
-                        esPrimo = false;
-                        break;
+                    if (numero % j == 0) { // Si es divisible entre otro número
+                        esPrimo = false;   // Entonces no es primo
+                        break;             // Rompe el ciclo porque ya no es necesario seguir
                     }
                 }
             }
 
-            if (esPrimo) {
-                primos[contadorPrimos] = numero;
-                contadorPrimos++;
-            } else {
-                noPrimos[contadorNoPrimos] = numero;
-                contadorNoPrimos++;
+            // ---- PARADIGMA IMPERATIVO: decisión mediante condicional ----
+            if (esPrimo) { // Si el número es primo
+                primos[contadorPrimos] = numero; // Lo guardamos en el arreglo de primos
+                contadorPrimos++;                // Incrementamos el contador de primos
+            } else { // Si no es primo
+                noPrimos[contadorNoPrimos] = numero; // Lo guardamos en el arreglo de no primos
+                contadorNoPrimos++;                  // Incrementamos el contador de no primos
             }
         }
 
-        // Resumen final usando "matriz de dos filas"
-        System.out.print("Primos:     ");
-        for (int i = 0; i < contadorPrimos; i++) {
-            System.out.print(primos[i] + " ");
+        // ---- PARADIGMA IMPERATIVO: salida ordenada en consola ----
+        System.out.print("Primos:     "); // Mensaje para la lista de primos
+        for (int i = 0; i < contadorPrimos; i++) { // Se recorre el arreglo de primos
+            System.out.print(primos[i] + " "); // Se imprimen los números primos encontrados
         }
 
-        System.out.print("\nNo primos:  ");
-        for (int i = 0; i < contadorNoPrimos; i++) {
-            System.out.print(noPrimos[i] + " ");
+        System.out.print("\nNo primos:  "); // Mensaje para la lista de no primos
+        for (int i = 0; i < contadorNoPrimos; i++) { // Se recorre el arreglo de no primos
+            System.out.print(noPrimos[i] + " "); // Se imprimen los números no primos encontrados
         }
     }
 }
